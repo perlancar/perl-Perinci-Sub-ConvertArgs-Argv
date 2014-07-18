@@ -3,7 +3,6 @@ package Perinci::Sub::ConvertArgs::Argv;
 use 5.010001;
 use strict;
 use warnings;
-use Log::Any '$log';
 
 use Exporter;
 our @ISA = qw(Exporter);
