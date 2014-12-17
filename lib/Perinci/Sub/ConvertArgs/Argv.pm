@@ -1,5 +1,8 @@
 package Perinci::Sub::ConvertArgs::Argv;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
@@ -7,8 +10,6 @@ use warnings;
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(convert_args_to_argv);
-
-# VERSION
 
 our %SPEC;
 
@@ -106,7 +107,7 @@ sub convert_args_to_argv {
 }
 
 1;
-#ABSTRACT: Convert hash arguments to command-line options (and arguments)
+#ABSTRACT:
 
 =head1 SYNOPSIS
 
