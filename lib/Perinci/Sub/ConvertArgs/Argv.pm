@@ -116,11 +116,6 @@ sub convert_args_to_argv {
  my $res = convert_args_to_argv(args=>\%args, meta=>$meta, ...);
 
 
-=head1 TODO
-
-Option to use/prefer cmdline_aliases.
-
-
 =head1 SEE ALSO
 
 L<Perinci::CmdLine>, which uses this module for presenting command-line
