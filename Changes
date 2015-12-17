@@ -1,5 +1,10 @@
 Revision history for Perinci-Sub-ConvertArgs-Argv
 
+0.07    2015-12-17 (PERLANCAR)
+
+	- Handle positional arguments that are also greedy.
+
+
 0.06    2015-12-17 (PERLANCAR)
 
 	- Encode argument that is array of simple types using repeated form
