@@ -79,10 +79,21 @@ sub convert_args_to_argv {
     my %iargs = %$iargs; # copy 'coz we will delete them one by one as we fill
 
     if ($fargs{use_pos}) {
-        for (sort {$args_prop->{$a}{pos} <=> $args_prop->{$b}{pos}}
-                 grep {defined $args_prop->{$_}{pos}} keys %iargs) {
-            $argv[ $args_prop->{$_}{pos} ] = _encode($iargs{$_});
-            delete $iargs{$_};
+        for my $arg (sort {$args_prop->{$a}{pos} <=> $args_prop->{$b}{pos}}
+                         grep {defined $args_prop->{$_}{pos}} keys %iargs) {
+            my $pos = $args_prop->{$arg}{pos};
+            if ($args_prop->{$arg}{greedy}) {
+                my $sch = $args_prop->{$arg}{schema};
+                my $is_array_of_simple = $sch && $sch->[0] eq 'array' &&
+                    $sch->[1]{of} && is_simple($sch->[1]{of});
+                for my $el (@{ $iargs{$arg} }) {
+                    $argv[$pos] = $is_array_of_simple ? $el : _encode($el);
+                    $pos++;
+                }
+            } else {
+                $argv[$pos] = _encode($iargs{$arg});
+            }
+            delete $iargs{$arg};
         }
     }
 

@@ -39,6 +39,19 @@ test_convert(
     args   => {meta=>$meta, args=>{s1=>'a', s2=>[], n=>2, b1=>0}, use_pos=>1},
     result => ['a', '[]', '--nob1', '-n', 2],
 );
+{
+    my $meta = {
+        v => 1.1,
+        args => {
+            aos => {schema=>["array", {of=>["str"]}], pos=>0, greedy=>1},
+        },
+    };
+    test_convert(
+        name => 'use_pos=1 + greedy',
+        args   => {meta=>$meta, args=>{aos=>["foo","bar baz"]}, use_pos=>1},
+        result => ['foo', 'bar baz'],
+    );
+}
 test_convert(
     name => 'array of simple (str)',
     args   => {meta=>$meta, args=>{aos=>["foo","bar"]}},
