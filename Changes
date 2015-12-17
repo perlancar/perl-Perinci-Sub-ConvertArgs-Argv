@@ -1,5 +1,13 @@
 Revision history for Perinci-Sub-ConvertArgs-Argv
 
+0.06    2015-12-17 (PERLANCAR)
+
+	- Encode argument that is array of simple types using repeated form
+	  (--foo one --foo two) or comma-separated (--foo 1,2,3) when
+	  possible instead of the less-readable json form (--foo-json
+	  '["one","two"]' or --foo-json '[1,2,3]').
+
+
 0.05    2015-09-03 (PERLANCAR)
 
 	- No functional changes.
