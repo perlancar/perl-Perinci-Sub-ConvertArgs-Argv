@@ -7,6 +7,8 @@ use 5.010001;
 use strict;
 use warnings;
 
+use Data::Sah::Util::Type qw(is_simple);
+
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(convert_args_to_argv);
@@ -85,8 +87,12 @@ sub convert_args_to_argv {
     }
 
     for (sort keys %iargs) {
-        my $is_bool = $args_prop->{$_}{schema} &&
-            $args_prop->{$_}{schema}[0] eq 'bool';
+        my $sch = $args_prop->{$_}{schema};
+        my $is_bool = $sch && $sch->[0] eq 'bool';
+        my $is_array_of_simple = $sch && $sch->[0] eq 'array' &&
+            $sch->[1]{of} && is_simple($sch->[1]{of});
+        my $can_be_comma_separated = $is_array_of_simple &&
+            $sch->[1]{of}[0] =~ /\A(int|float)\z/; # XXX as well as other simple types that cannot contain commas
         my $opt = $_; $opt =~ s/_/-/g;
         my $dashopt = length($opt) > 1 ? "--$opt" : "-$opt";
         if ($is_bool) {
@@ -94,6 +100,12 @@ sub convert_args_to_argv {
                 push @argv, $dashopt;
             } else {
                 push @argv, "--no$opt";
+            }
+        } elsif ($can_be_comma_separated) {
+            push @argv, "$dashopt", join(",", @{ $iargs{$_} });
+        } elsif ($is_array_of_simple) {
+            for (@{ $iargs{$_} }) {
+                push @argv, "$dashopt", $_;
             }
         } else {
             if (ref $iargs{$_}) {
