@@ -16,8 +16,8 @@ our @EXPORT_OK = qw(convert_args_to_argv);
 our %SPEC;
 
 sub _json {
-    require JSON;
-    state $json = JSON->new->allow_nonref;
+    require JSON::MaybeXS;
+    state $json = JSON::MaybeXS->new->allow_nonref;
     $json->encode($_[0]);
 }
 
