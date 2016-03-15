@@ -1,5 +1,12 @@
 Revision history for Perinci-Sub-ConvertArgs-Argv
 
+0.08    2016-03-16 (PERLANCAR)
+
+	- No functional changes.
+
+	- Replace JSON with JSON::MaybeXS.
+
+
 0.07    2015-12-17 (PERLANCAR)
 
 	- Handle positional arguments that are also greedy.
