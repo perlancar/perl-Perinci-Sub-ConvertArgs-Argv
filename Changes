@@ -1,5 +1,11 @@
 Revision history for Perinci-Sub-ConvertArgs-Argv
 
+0.10    2016-12-12 (PERLANCAR)
+
+	- Convert hash-of-simple argument into --name k1=v1 --name k2=v2
+	  ...
+
+
 0.09    2016-09-25 (PERLANCAR)
 
 	- Revert from using JSON::MaybeXS to JSON because JSON::MaybeXS is
