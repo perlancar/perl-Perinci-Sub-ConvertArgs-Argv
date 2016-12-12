@@ -21,6 +21,7 @@ my $meta = {
         h1 => {schema=>["hash"]},
         aos => {schema=>["array", {of=>["str"]}]},
         aoi => {schema=>["array", {of=>["int"]}]},
+        hos => {schema=>["hash", {of=>["str"]}]},
     },
 };
 
@@ -61,6 +62,12 @@ test_convert(
     name => 'array of simple (can be comma-separated)',
     args   => {meta=>$meta, args=>{aoi=>[1,2,3]}},
     result => ['--aoi', '1,2,3'],
+);
+
+test_convert(
+    name => 'hash of simple (str)',
+    args   => {meta=>$meta, args=>{hos=>{foo=>1, bar=>2}}},
+    result => ['--hos', 'bar=2', '--hos', 'foo=1'],
 );
 
 DONE_TESTING:

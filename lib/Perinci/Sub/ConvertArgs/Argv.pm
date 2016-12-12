@@ -85,7 +85,7 @@ sub convert_args_to_argv {
             if ($args_prop->{$arg}{greedy}) {
                 my $sch = $args_prop->{$arg}{schema};
                 my $is_array_of_simple = $sch && $sch->[0] eq 'array' &&
-                    $sch->[1]{of} && is_simple($sch->[1]{of});
+                    is_simple($sch->[1]{of} // $sch->[1]{each_elem});
                 for my $el (@{ $iargs{$arg} }) {
                     $argv[$pos] = $is_array_of_simple ? $el : _encode($el);
                     $pos++;
@@ -102,6 +102,8 @@ sub convert_args_to_argv {
         my $is_bool = $sch && $sch->[0] eq 'bool';
         my $is_array_of_simple = $sch && $sch->[0] eq 'array' &&
             $sch->[1]{of} && is_simple($sch->[1]{of});
+        my $is_hash_of_simple = $sch && $sch->[0] eq 'hash' &&
+            is_simple($sch->[1]{of} // $sch->[1]{each_value} // $sch->[1]{each_elem});
         my $can_be_comma_separated = $is_array_of_simple &&
             $sch->[1]{of}[0] =~ /\A(int|float)\z/; # XXX as well as other simple types that cannot contain commas
         my $opt = $_; $opt =~ s/_/-/g;
@@ -117,6 +119,11 @@ sub convert_args_to_argv {
         } elsif ($is_array_of_simple) {
             for (@{ $iargs{$_} }) {
                 push @argv, "$dashopt", $_;
+            }
+        } elsif ($is_hash_of_simple) {
+            my $arg = $iargs{$_};
+            for (sort keys %$arg) {
+                push @argv, "$dashopt", "$_=$arg->{$_}";
             }
         } else {
             if (ref $iargs{$_}) {
