@@ -1,3 +1,9 @@
+0.110   2019-04-15 (PERLANCAR)
+
+	- Observe argument spec property 'slurpy' in addition to 'greedy'
+	  (Rinci 1.1.88).
+
+
 0.10    2016-12-12 (PERLANCAR)
 
 	- Convert hash-of-simple argument into --name k1=v1 --name k2=v2
