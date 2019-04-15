@@ -82,7 +82,7 @@ sub convert_args_to_argv {
         for my $arg (sort {$args_prop->{$a}{pos} <=> $args_prop->{$b}{pos}}
                          grep {defined $args_prop->{$_}{pos}} keys %iargs) {
             my $pos = $args_prop->{$arg}{pos};
-            if ($args_prop->{$arg}{greedy}) {
+            if ($args_prop->{$arg}{slurpy} // $args_prop->{$arg}{greedy}) {
                 my $sch = $args_prop->{$arg}{schema};
                 my $is_array_of_simple = $sch && $sch->[0] eq 'array' &&
                     is_simple($sch->[1]{of} // $sch->[1]{each_elem});
